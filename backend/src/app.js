@@ -23,7 +23,7 @@ app.get('/hello', hello);
 //=============================================================================
 
 app.listen(port, () => {
-    console.log(`AlgoSim backend listening on port ${port}`);
+    console.log(`Scurvy Mango backend listening on port ${port}`);
 });
 
 //
