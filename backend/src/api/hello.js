@@ -1,5 +1,8 @@
 function hello(req, res) {
-    res.send('Hello World from the Scurvy Mango backend!');
+    console.log('[ STATUS ] GET /hello -', Date());
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({ 'message': 'Hello World from the Scurvy Mango backend!' }));
 }
 
 module.exports = hello;
