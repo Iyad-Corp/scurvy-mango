@@ -3,7 +3,7 @@
 on:
   push:
     branches:
-      - cicd-cloud-run
+      - main
     paths:
       - "backend/**"
       - ".github/workflows/deploy-backend.yml"
