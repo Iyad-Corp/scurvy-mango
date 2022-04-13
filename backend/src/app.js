@@ -72,7 +72,7 @@ app.use('/', express.static('public'));
 //=============================================================================
 
 // hello message
-app.get('/hello', verifySession(), hello);
+app.get('/hello', verifySession({ sessionRequired: false }), hello);
 
 //=============================================================================
 // set error handlers
