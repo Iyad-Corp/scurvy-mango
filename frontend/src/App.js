@@ -7,9 +7,10 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import * as reactRouterDom from "react-router-dom";
 import SuperTokens, { getSuperTokensRoutesForReactRouterDom } from "supertokens-auth-react";
-import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
+import EmailPassword, { EmailPasswordAuth } from "supertokens-auth-react/recipe/emailpassword";
 import Session from "supertokens-auth-react/recipe/session";
 import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
 import PageNotFound from './pages/PageNotFound';
 
 //=============================================================================
@@ -45,6 +46,12 @@ function App() {
         {getSuperTokensRoutesForReactRouterDom(reactRouterDom)}
         <Route path="/">
           <Route index element={<Home />} />
+          <Route path="dashboard" element={
+            <EmailPasswordAuth>
+              {/*Components that require to be protected by authentication*/}
+              <Dashboard />
+            </EmailPasswordAuth>
+          } />
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
