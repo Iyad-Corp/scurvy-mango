@@ -5,4 +5,4 @@ function hello(req, res) {
     res.send(JSON.stringify({ 'message': 'Hello World from the Scurvy Mango backend!' }));
 }
 
-module.exports = hello;
+export default hello;
