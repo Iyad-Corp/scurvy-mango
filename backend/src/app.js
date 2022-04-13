@@ -10,7 +10,8 @@ import supertokens from "supertokens-node";
 import Session from "supertokens-node/recipe/session/index.js";
 import EmailPassword from "supertokens-node/recipe/emailpassword/index.js";
 import { middleware, errorHandler } from "supertokens-node/framework/express/index.js";
-import hello from './api/hello.mjs';
+import { verifySession } from "supertokens-node/recipe/session/framework/express/index.js";
+import hello from './api/hello.js';
 
 //=============================================================================
 // get environment variables and define constants
@@ -71,7 +72,7 @@ app.use('/', express.static('public'));
 //=============================================================================
 
 // hello message
-app.get('/hello', hello);
+app.get('/hello', verifySession(), hello);
 
 //=============================================================================
 // set error handlers
