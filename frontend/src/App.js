@@ -9,6 +9,7 @@ import * as reactRouterDom from "react-router-dom";
 import SuperTokens, { getSuperTokensRoutesForReactRouterDom } from "supertokens-auth-react";
 import EmailPassword, { EmailPasswordAuth } from "supertokens-auth-react/recipe/emailpassword";
 import Session from "supertokens-auth-react/recipe/session";
+import * as constants from "./constants";
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import PageNotFound from './pages/PageNotFound';
@@ -21,8 +22,8 @@ SuperTokens.init({
   appInfo: {
     // learn more about this on https://supertokens.com/docs/emailpassword/appinfo
     appName: "Scurvy Mango",
-    apiDomain: "http://localhost:3001",
-    websiteDomain: "http://localhost:3000",
+    apiDomain: constants.BACKEND_URI,
+    websiteDomain: constants.FRONTEND_URI,
     apiBasePath: "/auth",
     websiteBasePath: "/auth",
   },
