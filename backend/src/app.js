@@ -11,13 +11,17 @@ import Session from "supertokens-node/recipe/session/index.js";
 import EmailPassword from "supertokens-node/recipe/emailpassword/index.js";
 import { middleware, errorHandler } from "supertokens-node/framework/express/index.js";
 import { verifySession } from "supertokens-node/recipe/session/framework/express/index.js";
+import * as constants from './constants.js';
 import hello from './api/hello.js';
 
 //=============================================================================
-// get environment variables and define constants
+// check if vital environment variables are set
 //=============================================================================
 
-const PORT = (process.env.PORT) ? process.env.PORT : 3001;
+if (!constants.SUPERTOKENS_URI || !constants.SUPERTOKENS_API_KEY) {
+    console.log("[ ERROR ] SUPERTOKENS_URI and SUPERTOKENS_API_KEY environment variables must be set.");
+    process.exit(1);
+}
 
 //=============================================================================
 // initialize supertokens
@@ -27,14 +31,14 @@ supertokens.init({
     framework: "express",
     supertokens: {
         // These are the connection details of the app you created on supertokens.com
-        connectionURI: "https://952f1871b9ba11ecafb6277fa4e3aa94-us-east-1.aws.supertokens.io:3568",
-        apiKey: "dKnikUiRgXIxBmgsEjukCLjxeydVnw",
+        connectionURI: constants.SUPERTOKENS_URI,
+        apiKey: constants.SUPERTOKENS_API_KEY,
     },
     appInfo: {
         // learn more about this on https://supertokens.com/docs/session/appinfo
         appName: "Scurvy Mango",
-        apiDomain: "http://localhost:3001",
-        websiteDomain: "http://localhost:3000",
+        apiDomain: constants.BACKEND_URI,
+        websiteDomain: constants.FRONTEND_URI,
         apiBasePath: "/auth",
         websiteBasePath: "/auth",
     },
@@ -89,8 +93,8 @@ app.use(errorHandler())
 // bind port and listen for connections
 //=============================================================================
 
-app.listen(PORT, () => {
-    console.log(`Scurvy Mango backend listening on port ${PORT}`);
+app.listen(constants.PORT, () => {
+    console.log(`Scurvy Mango backend listening on port ${constants.PORT}`);
 });
 
 //
