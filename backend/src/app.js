@@ -61,7 +61,7 @@ const app = express();
 app.use(cors({
     origin: '*',
     allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
-    credentials: true,
+    credentials: false,
 }));
 
 // use supertokens middleware
