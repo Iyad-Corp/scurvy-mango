@@ -56,7 +56,7 @@ const app = express();
 
 // set supertokens cors policy
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: constants.FRONTEND_URI,
     allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
     credentials: true,
 }));
