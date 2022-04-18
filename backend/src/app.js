@@ -14,9 +14,6 @@ import { verifySession } from "supertokens-node/recipe/session/framework/express
 import * as constants from './constants.js';
 import hello from './api/hello.js';
 
-// print back/front-end URIs for debuggin
-console.log(`[ DEBUG ] back/front-end URIs:\n${constants.BACKEND_URI}\n${constants.FRONTEND_URI}`)
-
 //=============================================================================
 // check if vital environment variables are set
 //=============================================================================
@@ -59,7 +56,7 @@ const app = express();
 
 // set supertokens cors policy
 app.use(cors({
-    origin: [constants.FRONTEND_URI, 'https://sm-frontend-bdav4hq7ta-uk.a.run.app'],
+    origin: constants.FRONTEND_URI,
     allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
     credentials: true,
 }));
