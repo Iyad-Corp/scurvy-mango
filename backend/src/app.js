@@ -14,6 +14,9 @@ import { verifySession } from "supertokens-node/recipe/session/framework/express
 import * as constants from './constants.js';
 import hello from './api/hello.js';
 
+// print back/front-end URIs for debuggin
+console.log(`[ DEBUG ] back/front-end URIs:\n${constants.BACKEND_URI}\n${constants.FRONTEND_URI}`)
+
 //=============================================================================
 // check if vital environment variables are set
 //=============================================================================
