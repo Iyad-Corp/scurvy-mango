@@ -13,6 +13,10 @@ env:
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }} # service account key
   GCP_REGION: us-east4 # service location
   GCP_SERVICE: sm-backend # cloud run service name
+  BACKEND_URI: ${{ secrets.BACKEND_URI }}
+  FRONTEND_URI: ${{ secrets.FRONTEND_URI }}
+  SUPERTOKENS_URI: ${{ secrets.SUPERTOKENS_URI }}
+  SUPERTOKENS_API_KEY: ${{ secrets.SUPERTOKENS_API_KEY }}
 
 jobs:
   build-and-deploy:
@@ -40,7 +44,13 @@ jobs:
 
       - name: Build and Push Container
         run: |-
-          docker build -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }} ./backend
+          docker build \
+            --build-arg BACKEND_URI \
+            --build-arg FRONTEND_URI \
+            --build-arg SUPERTOKENS_URI \
+            --build-arg SUPERTOKENS_API_KEY \
+            -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }} \
+            ./backend
           docker push gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
 
       # https://github.com/marketplace/actions/deploy-to-cloud-run
