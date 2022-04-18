@@ -58,11 +58,11 @@ supertokens.init({
 const app = express();
 
 // set supertokens cors policy
-app.use(cors(/*{
-    //origin: constants.FRONTEND_URI,
-    //allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
-    //credentials: true,
-}*/));
+app.use(cors({
+    origin: [constants.FRONTEND_URI, 'https://sm-frontend-bdav4hq7ta-uk.a.run.app'],
+    allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
+    credentials: true,
+}));
 
 // use supertokens middleware
 // adds a few APIs: https://app.swaggerhub.com/apis/supertokens/FDI
