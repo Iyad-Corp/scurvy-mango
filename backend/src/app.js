@@ -59,7 +59,7 @@ const app = express();
 
 // set supertokens cors policy
 app.use(cors({
-    origin: constants.FRONTEND_URI,
+    origin: '*',
     allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
     credentials: true,
 }));
