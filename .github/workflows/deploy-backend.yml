@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - sm-006-leo-authentication
     paths:
       - "backend/**"
       - ".github/workflows/deploy-backend.yml"
