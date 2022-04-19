@@ -4,15 +4,15 @@
 // module imports
 //=============================================================================
 
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from "react-router-dom";
 import * as reactRouterDom from "react-router-dom";
 import SuperTokens, { getSuperTokensRoutesForReactRouterDom } from "supertokens-auth-react";
 import EmailPassword, { EmailPasswordAuth } from "supertokens-auth-react/recipe/emailpassword";
 import Session from "supertokens-auth-react/recipe/session";
 import * as constants from "./constants";
-import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
-import PageNotFound from './pages/PageNotFound';
+import * as pages from "./pages";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 
 //=============================================================================
 // initialize supertokens
@@ -42,7 +42,7 @@ SuperTokens.init({
       // }
     }),
     Session.init(),
-  ]
+  ],
 });
 
 //=============================================================================
@@ -53,21 +53,31 @@ function App() {
   const location = useLocation();
 
   return (
-    <div className="relative flex flex-col min-h-screen">
-      <Routes location={location} key={location.pathname}>
-        {/* This renders the login UI on the /auth route */}
-        {getSuperTokensRoutesForReactRouterDom(reactRouterDom)}
-        <Route path="/">
-          <Route index element={<Home />} />
-          <Route path="dashboard" element={
-            <EmailPasswordAuth>
-              {/*Components that require to be protected by authentication*/}
-              <Dashboard />
-            </EmailPasswordAuth>
-          } />
-          <Route path="*" element={<PageNotFound />} />
-        </Route>
-      </Routes>
+    <div className="relative flex flex-col justify-between w-full min-h-screen">
+      <div className="relative flex flex-col">
+        <NavBar />
+        <Routes location={location} key={location.pathname}>
+          {/* This renders the login UI on the /auth route */}
+          {getSuperTokensRoutesForReactRouterDom(reactRouterDom)}
+          <Route path="/">
+            <Route index element={<pages.Home />} />
+            <Route path="companies" element={<pages.Companies />} />
+            <Route path="people" element={<pages.People />} />
+            <Route path="about" element={<pages.About />} />
+            <Route
+              path="profile"
+              element={
+                <EmailPasswordAuth>
+                  {/* page protected by authentication */}
+                  <pages.Profile />
+                </EmailPasswordAuth>
+              }
+            />
+            <Route path="*" element={<pages.PageNotFound />} />
+          </Route>
+        </Routes>
+      </div>
+      <Footer />
     </div>
   );
 }
