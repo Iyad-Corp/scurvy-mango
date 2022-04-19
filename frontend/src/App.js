@@ -12,6 +12,7 @@ import Session from "supertokens-auth-react/recipe/session";
 import * as constants from "./constants";
 import * as pages from "./pages";
 import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 
 //=============================================================================
 // initialize supertokens
@@ -52,28 +53,31 @@ function App() {
   const location = useLocation();
 
   return (
-    <div className="relative flex flex-col items-center min-h-screen">
-      <NavBar />
-      <Routes location={location} key={location.pathname}>
-        {/* This renders the login UI on the /auth route */}
-        {getSuperTokensRoutesForReactRouterDom(reactRouterDom)}
-        <Route path="/">
-          <Route index element={<pages.Home />} />
-          <Route path="companies" element={<pages.Companies />} />
-          <Route path="people" element={<pages.People />} />
-          <Route path="about" element={<pages.About />} />
-          <Route
-            path="profile"
-            element={
-              <EmailPasswordAuth>
-                {/* page protected by authentication */}
-                <pages.Profile />
-              </EmailPasswordAuth>
-            }
-          />
-          <Route path="*" element={<pages.PageNotFound />} />
-        </Route>
-      </Routes>
+    <div className="relative flex flex-col justify-between w-full min-h-screen">
+      <div className="relative flex flex-col">
+        <NavBar />
+        <Routes location={location} key={location.pathname}>
+          {/* This renders the login UI on the /auth route */}
+          {getSuperTokensRoutesForReactRouterDom(reactRouterDom)}
+          <Route path="/">
+            <Route index element={<pages.Home />} />
+            <Route path="companies" element={<pages.Companies />} />
+            <Route path="people" element={<pages.People />} />
+            <Route path="about" element={<pages.About />} />
+            <Route
+              path="profile"
+              element={
+                <EmailPasswordAuth>
+                  {/* page protected by authentication */}
+                  <pages.Profile />
+                </EmailPasswordAuth>
+              }
+            />
+            <Route path="*" element={<pages.PageNotFound />} />
+          </Route>
+        </Routes>
+      </div>
+      <Footer />
     </div>
   );
 }
