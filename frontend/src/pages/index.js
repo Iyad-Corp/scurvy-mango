@@ -1,11 +1,6 @@
-import React from 'react';
-  
-const Home = () => {
-  return (
-    <div>
-      <h1>Welcome to GeeksforGeeks</h1>
-    </div>
-  );
-};
-  
-export default Home;
+export { default as PageNotFound } from "./PageNotFound";
+export { default as Home } from "./Home";
+export { default as Companies } from "./Companies";
+export { default as People } from "./People";
+export { default as About } from "./About";
+export { default as Profile } from "./Profile";
