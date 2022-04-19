@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - sm-006-leo-authentication
     paths:
       - "frontend/**"
       - ".github/workflows/deploy-frontend.yml"
@@ -13,6 +14,8 @@ env:
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }} # service account key
   GCP_REGION: us-east4 # service location
   GCP_SERVICE: sm-frontend # cloud run service name
+  BACKEND_URI: ${{ secrets.BACKEND_URI }}
+  FRONTEND_URI: ${{ secrets.FRONTEND_URI }}
 
 jobs:
   build-and-deploy:
@@ -40,7 +43,11 @@ jobs:
 
       - name: Build and Push Container
         run: |-
-          docker build -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }} ./frontend
+          docker build \
+            --build-arg BACKEND_URI \
+            --build-arg FRONTEND_URI \
+            -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }} \
+            ./frontend
           docker push gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
 
       # https://github.com/marketplace/actions/deploy-to-cloud-run
