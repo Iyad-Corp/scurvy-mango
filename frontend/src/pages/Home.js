@@ -23,8 +23,8 @@ export default function Home() {
         <div className="min-w-[26rem] rounded-xl bg-teal-400 p-4 text-center text-2xl font-bold shadow-2xl duration-200 hover:bg-teal-900 hover:text-teal-200">Click me to login.</div>
       </Link>
 
-      <Link to="/dashboard">
-        <div className="min-w-[26rem] rounded-xl bg-teal-400 p-4 text-center text-2xl font-bold shadow-2xl duration-200 hover:bg-teal-900 hover:text-teal-200">Go to dashboard!</div>
+      <Link to="/profile">
+        <div className="min-w-[26rem] rounded-xl bg-teal-400 p-4 text-center text-2xl font-bold shadow-2xl duration-200 hover:bg-teal-900 hover:text-teal-200">Go to Profile!</div>
       </Link>
 
       <button onClick={onLogout}>
