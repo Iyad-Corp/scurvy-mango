@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronDownIcon, GlobeIcon } from "@heroicons/react/solid";
 import { SearchIcon } from "@heroicons/react/outline";
 import lockheedmartin from "../assets/companies/lockheedmartin.jpg";
@@ -60,6 +60,7 @@ export default function Companies() {
   const [query, setQuery] = useState(""); // search input
   const [foundCompanies, setFoundCompanies] = useState(companies); // displayed companies
 
+  const navigate = useNavigate();
   const searchInputRef = useRef(null); // search input ref
 
   useEffect(() => {
@@ -107,7 +108,12 @@ export default function Companies() {
       </div>
       {foundCompanies.length !== 0 ? (
         foundCompanies.map((company) => (
-          <Link to={`/companies/${company.name}`} className="w-full border-2 rounded-xl hover:shadow-xl duration-200">
+          <div
+            onClick={(e) => {
+              navigate(`/companies/${company.name}`);
+            }}
+            className="w-full border-2 rounded-xl hover:shadow-xl duration-200 z-0"
+          >
             <div className="flex p-4 space-x-4">
               <img src={company.logo} alt="profile" className=" h-24 rounded-lg " />
               <div className="flex flex-col items-start">
@@ -136,7 +142,7 @@ export default function Companies() {
                 </div>
               </div>
             </div>
-          </Link>
+          </div>
         ))
       ) : (
         <div className="w-full flex flex-col justify-center items-center">
