@@ -21,14 +21,16 @@ async function main() {
         await client.connect();
 
         // Make the appropriate DB calls
-        await createListing(client,
-            {
-                name: "Lovely Loft",
-                summary: "A charming loft in Paris",
-                bedrooms: 1,
-                bathrooms: 1
-            }
-        );
+        await createUser(client, "John", 2, ["Google", "Facebook"]);
+
+        //find user
+        await getUser(client, "John");
+
+        //add application
+        await addApplication(client, "John", "Amazon");
+
+        //update user
+        await updateUser(client, "John", "John Smith");
 
     } finally {
         // Close the connection to the MongoDB cluster
@@ -39,8 +41,31 @@ async function main() {
 main().catch(console.error);
 
 // Add functions that make DB calls here
-async function createListing(client, newListing){
-    const result = await client.db("sample_airbnb").collection("listingsAndReviews").insertOne(newListing);
-    console.log(`New listing created with the following id: ${result.insertedId}`);
+async function createUser(client, name, numapps, appdata){
+    newUser = {
+        Name: name,
+        NumberOfApplications: numapps,
+        CompaniesApplied: appdata
+    }
+    if(await client.db("Test").collection("User").findOne({Name: name})){
+        console.log("User already exists");
+    }
+    else{
+        const result = await client.db("Test").collection("User").insertOne(newUser);
+        console.log(`New user created with the following id: ${result.insertedId}`);
+    }
 }
 
+async function getUser(client, searchname){
+    const result = await client.db("Test").collection("User").findOne({Name: searchname});
+    console.log(result);
+}
+
+async function updateUser(client, searchname, newname){
+    const result = await client.db("Test").collection("User").updateOne({Name: searchname}, {$set: {Name: newname}});
+    console.log(result);
+}
+async function addApplication(client, searchname, company){
+    const result = await client.db("Test").collection("User").updateOne({Name: searchname}, {$push: {CompaniesApplied: company}, $inc: {NumberOfApplications: 1}});
+    console.log(result);
+}
