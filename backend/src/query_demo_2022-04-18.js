@@ -29,6 +29,9 @@ async function main() {
     // find a single item
     // await findSingleItem(client);
 
+    // update a record
+    await updateRecord(client);
+    
     // count the number of recruiters
     await countRecruiters(client);
 
@@ -42,6 +45,25 @@ async function main() {
     // close db to ensure safe exit
     await client.close();
   }
+
+}
+
+async function updateRecord(client){
+
+  database  = client.db("Test");
+  companies = database.collection("Companies");
+  filter    = { Name:"Google" };
+
+  update    = { $set:  {Connections:"123"} };
+  result    = await companies.updateOne( filter , update );
+
+  update    = { $set: {nEmployees : 1000} };
+  result    = await companies.updateOne( filter , update );
+
+  update    = { $inc : {nEmployees : 4} };
+  result    = await companies.updateOne( filter , update );
+
+  console.log(result);
 
 }
 
