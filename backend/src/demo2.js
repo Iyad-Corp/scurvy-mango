@@ -21,17 +21,24 @@ async function main() {
         await client.connect();
 
         // Make the appropriate DB calls
-        await createUser(client, "John", 2, ["Google", "Facebook"]);
+        // await createUser(client, "Jason Windgard", 2, [{CompanyName: "Google", Status: "pending"}, {CompanyName: "Facebook", Status: "pending"}]);
 
         //find user
-        await getUser(client, "John");
+        // await getUser(client, "Jane");
 
         //add application
-        await addApplication(client, "John", "Amazon");
+        // await addApplication(client, "Jane", {CompanyName: "Amazon" , Status: "pending"});
 
         //update user
-        await updateUser(client, "John", "John Smith");
+        // await updateUser(client, "Jane Doe", "Jane");
 
+        //update status
+        await updateStatus2(client, "Jason Windgard", "Facebook", "accepted");
+
+        //delete application
+        // await deleteApplication(client, "Jason Windgard", "Google");
+
+        
     } finally {
         // Close the connection to the MongoDB cluster
         await client.close();
@@ -76,6 +83,22 @@ async function deleteUser(client, searchname){
 }
 
 async function deleteApplication(client, searchname, company){
-    const result = await client.db("Test").collection("User").updateOne({Name: searchname}, {$pull: {CompaniesApplied: company}, $inc: {NumberOfApplications: -1}});
+    const result = await client.db("Test").collection("User").updateOne({Name: searchname}, {$pull: {CompaniesApplied: {CompanyName: company}, $inc: {NumberOfApplications: -1}}});
     console.log(result);
 }
+
+// async function updateStatus(client, searchname, company, status){
+//     const result = await client.db("Test").collection("User").updateOne({Name: searchname, CompaniesApplied: {$elemMatch: {CompaniesApplied: company}}}, {$set: {CompaniesApplied[1]: status}});
+//     console.log(result);
+// }
+
+async function updateStatus2(client, searchname, company, status){
+    const result = await client.db("Test").collection("User").updateOne({Name: searchname, CompaniesApplied: {$elemMatch: {CompanyName: company}}}, {$set: {CompaniesApplied: {CompanyName: company, Status: status}}});
+    console.log(result);
+}
+
+// async function updateStatus(client, searchname, company, status){
+//     await deleteApplication(client, searchname, company);
+//     await addApplication(client, searchname, {CompanyName: company, Status: status});
+    // console.log(result);
+// }
