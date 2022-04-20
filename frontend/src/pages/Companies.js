@@ -87,7 +87,7 @@ export default function Companies() {
           type="search"
           value={query}
           onChange={onSearchChange}
-          placeholder='Search by name or industry (Press "/" to focus)'
+          placeholder='Search by name or industry'
           className="text-gray-600 placeholder:text-gray-500 placeholder:focus:text-gray-400 w-full focus:outline-none "
         />
       </div>
