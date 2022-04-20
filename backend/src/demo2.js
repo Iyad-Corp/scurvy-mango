@@ -74,3 +74,8 @@ async function deleteUser(client, searchname){
     const result = await client.db("Test").collection("User").deleteOne({Name: searchname});
     console.log(result);
 }
+
+async function deleteApplication(client, searchname, company){
+    const result = await client.db("Test").collection("User").updateOne({Name: searchname}, {$pull: {CompaniesApplied: company}, $inc: {NumberOfApplications: -1}});
+    console.log(result);
+}
