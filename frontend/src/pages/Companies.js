@@ -1,69 +1,24 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ChevronDownIcon, GlobeIcon } from "@heroicons/react/solid";
 import { SearchIcon } from "@heroicons/react/outline";
-import lockheedmartin from "../assets/companies/lockheedmartin.jpg";
-import google from "../assets/companies/google.jpg";
-import microsoft from "../assets/companies/microsoft.jpg";
-import theseattletimes from "../assets/companies/theseattletimes.jpg";
-import centralintelligenceagency from "../assets/companies/centralintelligenceagency.jpg";
-
-const companies = [
-  {
-    name: "Lockheed Martin",
-    logo: lockheedmartin,
-    industries: ["Aerospace", "Defense"],
-    headquarters: "Fort Rucker, AL",
-    website: "https://www.lockheedmartin.com/",
-    linkedin: "https://www.linkedin.com/company/lockheed-martin/",
-    twitter: "https://twitter.com/LockheedMartin",
-  },
-  {
-    name: "Google",
-    logo: google,
-    industries: ["Internet", "Search"],
-    headquarters: "Mountain View, CA",
-    website: "https://www.google.com/",
-    linkedin: "https://www.linkedin.com/company/google/",
-    twitter: "https://twitter.com/Google",
-  },
-  {
-    name: "Microsoft",
-    logo: microsoft,
-    industries: ["Internet", "Software"],
-    headquarters: "Redmond, WA",
-    website: "https://www.microsoft.com/",
-    linkedin: "https://www.linkedin.com/company/microsoft/",
-    twitter: "https://twitter.com/Microsoft",
-  },
-  {
-    name: "The Seattle Times",
-    logo: theseattletimes,
-    industries: ["News", "Media"],
-    headquarters: "Seattle, WA",
-    website: "https://www.seattletimes.com/",
-    linkedin: "https://www.linkedin.com/company/seattle-times/",
-    twitter: "https://twitter.com/seattletimes",
-  },
-  {
-    name: "Central Intelligence Agency",
-    logo: centralintelligenceagency,
-    industries: ["Government", "Intelligence"],
-    headquarters: "Washington, D.C.",
-    website: "https://www.cia.gov/",
-    linkedin: "https://www.linkedin.com/company/central-intelligence-agency",
-    twitter: "https://twitter.com/CIA",
-  },
-];
+import getCompanies from "../api/companies";
 
 export default function Companies() {
   const [query, setQuery] = useState(""); // search input
-  const [foundCompanies, setFoundCompanies] = useState(companies); // displayed companies
+  const [companies, setCompanies] = useState([]); // loaded companies
+  const [foundCompanies, setFoundCompanies] = useState([]); // displayed companies
 
   const navigate = useNavigate();
   const searchInputRef = useRef(null); // search input ref
 
   useEffect(() => {
+    // load companies on page load
+    getCompanies().then((c) => {
+      setCompanies(c);
+      setFoundCompanies(c);
+    });
+
     // focus search on '/' or 'ctrl+k'
     window.addEventListener("keydown", (e) => {
       if (e.key === "/" || (e.key === "k" && e.ctrlKey)) {
@@ -95,7 +50,7 @@ export default function Companies() {
   return (
     <div className="flex flex-col justify-center items-center py-5 px-28 space-y-3 mx-auto w-full max-w-screen-lg">
       {/* search bar */}
-      <div class="w-4/5 flex items-center px-10 pb-2 border-b space-x-2 mb-8 border-gray-400">
+      <div className="w-4/5 flex items-center px-10 pb-2 border-b space-x-2 mb-8 border-gray-400">
         <SearchIcon className="w-5 h-5 text-gray-400" />
         <input
           type="search"
@@ -107,8 +62,9 @@ export default function Companies() {
         />
       </div>
       {foundCompanies.length !== 0 ? (
-        foundCompanies.map((company) => (
+        foundCompanies.map((company, key) => (
           <div
+            key={key}
             onClick={(e) => {
               navigate(`/companies/${company.name}`);
             }}
@@ -151,11 +107,11 @@ export default function Companies() {
         </div>
       )}
 
-      {/* see more button that doesn't do anything yet (only show with results) */}
+      {/* see more button that doesn't do anything yet (only displays with results) */}
       {foundCompanies.length !== 0 && (
         <>
           <div className="h-2" />
-          <button onClick={{}} className="flex justify-center items-center text-gray-600 rounded-full bg-gray-200 py-2 px-4 hover:bg-gray-600 hover:text-gray-300 duration-200">
+          <button onClick={() => {}} className="flex justify-center items-center text-gray-600 rounded-full bg-gray-200 py-2 px-4 hover:bg-gray-600 hover:text-gray-300 duration-200">
             <p className="text-center text-base font-semibold">See more</p>
             <ChevronDownIcon className="h-5 w-5 -mb-1 -mr-1" />
           </button>
