@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDownIcon, GlobeIcon } from "@heroicons/react/solid";
 import { SearchIcon } from "@heroicons/react/outline";
@@ -60,6 +60,18 @@ export default function Companies() {
   const [query, setQuery] = useState(""); // search input
   const [foundCompanies, setFoundCompanies] = useState(companies); // displayed companies
 
+  const searchInputRef = useRef(null); // search input ref
+
+  useEffect(() => {
+    // focus search on '/' or 'ctrl+k'
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "/" || (e.key === "k" && e.ctrlKey)) {
+        e.preventDefault();
+        searchInputRef.current.focus();
+      }
+    });
+  }, []);
+
   // filter companies by search query
   function onSearchChange(e) {
     const { value } = e.target; // input value
@@ -67,9 +79,10 @@ export default function Companies() {
     if (value === "") {
       setFoundCompanies(companies);
     } else {
+      // match query to company name or industry
       const filteredCompanies = companies.filter((company) => {
-        const { name } = company;
-        return name.toLowerCase().includes(value.toLowerCase());
+        const { name, industries } = company;
+        return name.toLowerCase().includes(value.toLowerCase()) || industries.join(" ").toLocaleLowerCase().includes(value.toLowerCase());
       });
       setFoundCompanies(filteredCompanies);
     }
@@ -87,7 +100,8 @@ export default function Companies() {
           type="search"
           value={query}
           onChange={onSearchChange}
-          placeholder='Search by name or industry'
+          placeholder="Search by name or industry (Press '/' to focus)"
+          ref={searchInputRef}
           className="text-gray-600 placeholder:text-gray-500 placeholder:focus:text-gray-400 w-full focus:outline-none "
         />
       </div>
