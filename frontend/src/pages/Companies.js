@@ -130,18 +130,17 @@ export default function Companies() {
           <p className="text-sm">Try searching for another company.</p>
         </div>
       )}
-      <div className="h-2" />
-      <button
-        onClick={
-          {
-            /* doesn't do anything yet */
-          }
-        }
-        className="flex justify-center items-center text-gray-600 rounded-full bg-gray-200 py-2 px-4 hover:bg-gray-600 hover:text-gray-300 duration-200"
-      >
-        <p className="text-center text-base font-semibold">See more</p>
-        <ChevronDownIcon className="h-5 w-5 -mb-1 -mr-1" />
-      </button>
+
+      {/* see more button that doesn't do anything yet (only show with results) */}
+      {foundCompanies.length !== 0 && (
+        <>
+          <div className="h-2" />
+          <button onClick={{}} className="flex justify-center items-center text-gray-600 rounded-full bg-gray-200 py-2 px-4 hover:bg-gray-600 hover:text-gray-300 duration-200">
+            <p className="text-center text-base font-semibold">See more</p>
+            <ChevronDownIcon className="h-5 w-5 -mb-1 -mr-1" />
+          </button>
+        </>
+      )}
     </div>
   );
 }
