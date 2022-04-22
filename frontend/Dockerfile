@@ -1,6 +1,12 @@
 # Use node version 16 as the base image.
 FROM node:16
 
+# Get build args and set env variables
+ARG BACKEND_URI
+ARG FRONTEND_URI
+ENV REACT_APP_BACKEND_URI=$BACKEND_URI
+ENV REACT_APP_FRONTEND_URI=$FRONTEND_URI
+
 # Set the working directory.
 WORKDIR /app
 
