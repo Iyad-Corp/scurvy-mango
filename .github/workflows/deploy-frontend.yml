@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main
-      - sm-006-leo-authentication
-      - sm-014-leo-navbar
+      - sm-016-leo-companies
     paths:
       - "frontend/**"
       - ".github/workflows/deploy-frontend.yml"
