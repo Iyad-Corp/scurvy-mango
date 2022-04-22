@@ -88,7 +88,7 @@ export default function NavBar() {
         </Menu>
       ) : (
         <Link to="/auth">
-          <div className="flex justify-center items-center text-gray-600 rounded-full bg-gray-300 py-2 px-4 hover:bg-gray-600 hover:text-gray-300 duration-200">
+          <div className="flex justify-center items-center text-gray-600 rounded-full bg-gray-200 py-2 px-4 hover:bg-gray-600 hover:text-gray-300 duration-200">
             <p className="text-center text-base font-semibold">Sign in</p>
             <ChevronRightIcon className="h-5 w-5 -mb-1 -mr-1" />
           </div>
