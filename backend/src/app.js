@@ -14,6 +14,8 @@ import { verifySession } from "supertokens-node/recipe/session/framework/express
 import * as constants from "./constants.js";
 import hello from "./api/hello.js";
 import companies from "./api/companies.js";
+import user from "./api/user.js";
+import updateAppStatus from "./api/updateAppStatus.js";
 
 //=============================================================================
 // check if vital environment variables are set
@@ -83,6 +85,14 @@ app.get("/hello", verifySession({ sessionRequired: false }), hello);
 
 // companies list
 app.get("/companies", companies);
+
+// user list
+app.get("/user", user);
+
+// update application status
+app.post("/updateStatus", verifySession({ sessionRequired: true }), (req, res) => {
+  updateAppStatus(req, res);
+});
 
 //=============================================================================
 // set error handlers
