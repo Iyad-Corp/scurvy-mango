@@ -52,11 +52,26 @@ main().catch(console.error);
 
 
 /*------------------------------------------------------*/
+/*----------------------Connect to DB-------------------*/
+/*------------------------------------------------------*/
+
+async function mongoConnect(client){
+    const uri = "mongodb+srv://scurvy-mango:mango.scurvy@scurvy-mango.qpzfz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    if (!client.isConnected()) {
+        client = new MongoClient(uri);
+    }
+}
+
+/*------------------------------------------------------*/
 /*-----------------------Users--------------------------*/
 /*------------------------------------------------------*/
 
 // Create a new User entry
-async function createUser(client, name, numapps, appdata){
+async function createUser(name, numapps, appdata){
+
+    //connect to database
+    await mongoConnect(client);
+
     //define parameters
     const collection = client.db("Test").collection("User");
     const filter = {Name: name};
@@ -80,12 +95,15 @@ async function createUser(client, name, numapps, appdata){
 }
 
 //get user data by name
-async function getUser(client, searchname){
+async function getUser(searchname){
     
+    //connect to database
+    await mongoConnect(client);
+
     //define parameters
     const collection = client.db("Test").collection("User");
     const filter = {Name: searchname};
-    
+
     //log user data
     if(await collection.findOne(filter)){
         console.log(result);
@@ -94,13 +112,16 @@ async function getUser(client, searchname){
 }
 
 //change user's name
-async function updateName(client, searchname, newname){
+async function updateName(searchname, newname){
+
+    //connect to database
+    await mongoConnect(client);
     
     //define parameters
     const collection = client.db("Test").collection("User");
     const filter = {Name: searchname};
     const update = {$set: {Name: newname}};
-    
+
     //update name
     if(await collection.findOne(filter)){
         const result = await collection.updateOne(filter, update);
@@ -110,7 +131,10 @@ async function updateName(client, searchname, newname){
 }
 
 //delete all user data
-async function deleteUser(client, searchname){
+async function deleteUser(searchname){
+
+    //connect to database
+    await mongoConnect(client);
     
     //define parameters
     const collection = client.db("Test").collection("User");
@@ -125,7 +149,10 @@ async function deleteUser(client, searchname){
 }
 
 //create a new application, default status: pending
-async function addApplication(client, searchname, newCompany){
+async function addApplication(searchname, newCompany){
+
+    //connect to database
+    await mongoConnect(client);
 
     //define parameters
     const newApplication = {CompanyName: newCompany, Status: "pending"};
@@ -143,7 +170,10 @@ async function addApplication(client, searchname, newCompany){
 }
 
 //delete an application entry
-async function deleteApplication(client, searchname, company){
+async function deleteApplication(searchname, company){
+
+    //connect to database
+    await mongoConnect(client);
 
     //define parameters
     const collection = client.db("Test").collection("User");
@@ -159,7 +189,10 @@ async function deleteApplication(client, searchname, company){
 }
 
 //get status of specific application
-async function getStatus(client, searchName, searchCompany){
+async function getStatus(searchName, searchCompany){
+
+    //connect to database
+    await mongoConnect(client);
 
     //define parameters
     const collection = client.db("Test").collection("User");
@@ -174,7 +207,10 @@ async function getStatus(client, searchName, searchCompany){
 }
 
 //update status of a specific application
-async function updateStatus(client, searchName, searchCompany, newStatus){
+async function updateStatus(searchName, searchCompany, newStatus){
+
+    //connect to database
+    await mongoConnect(client);
 
     //define parameters
     const collection = client.db("Test").collection("User");
@@ -193,7 +229,10 @@ async function updateStatus(client, searchName, searchCompany, newStatus){
 /*-------------------Companies--------------------------*/
 /*------------------------------------------------------*/
 
-async function addCompany(client, company){
+async function addCompany(company){
+
+    //connect to database
+    await mongoConnect(client);
 
     //define parameters
     const collection = client.db("Test").collection("Company");
@@ -212,7 +251,10 @@ async function addCompany(client, company){
 }
 
 //get company data by name
-async function getCompany(client, searchname){
+async function getCompany(searchname){
+
+    //connect to database
+    await mongoConnect(client);
 
     //define parameters
     const collection = client.db("Test").collection("Company");
@@ -226,7 +268,10 @@ async function getCompany(client, searchname){
 }
 
 //delete all company data
-async function deleteCompany(client, compName){
+async function deleteCompany(compName){
+
+    //connect to database
+    await mongoConnect(client);
 
     //define parameters
     const collection = client.db("Test").collection("Company");
